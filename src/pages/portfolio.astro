@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Grid from '~/components/grid.astro';
+import PortfolioPreview from '~/components/portfolio-preview.astro';
+
+const projects = (await getCollection('portfolio')).sort(
+    (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+)
+---
+
+<BaseLayout
+    title="My Projects | Torin Rozzelle"
+    description="Explore my personal "
+    >
+
+    <div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<!-- <Hero
+				title="My Work"
+				tagline="See my most recent projects below to get an idea of my past experience."
+				align="start"
+			/> -->
+			<Grid variant="offset">
+				{
+					projects.map((project) => (
+						<li>
+							<PortfolioPreview project={project} />
+						</li>
+					))
+				}
+			</Grid>
+		</main>
+		<!-- <ContactCTA /> -->
+	</div>
+</BaseLayout>
